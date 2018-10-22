@@ -6,7 +6,7 @@ class Authority extends Component {
   }
 
   render() {
-    const { code, permission = [], children } = this.props;
+    const { code, permission = [], children, ...otherProps } = this.props;
     const rights = code && permission.includes(code);
 
     if ('function' === typeof children) {
@@ -14,6 +14,7 @@ class Authority extends Component {
     } else {
       let AdmitChild = null, DenyChild = null, normal = [];
       React.Children.forEach(children, c => {
+        c = React.cloneElement(c, { ...otherProps, ...c.props });
         const { type: { displayName } = {} } = c;
         if ('Admit' === displayName) {
           AdmitChild || (AdmitChild = c);
@@ -29,12 +30,14 @@ class Authority extends Component {
 }
 
 Authority.Admit = function (props) {
-  return props.children;
+  const { children, ...others } = props;
+  return React.cloneElement(props.children, { ...others });
 }
 Authority.Admit.displayName = 'Admit';
 
 Authority.Deny = function (props) {
-  return props.children;
+  const { children, ...others } = props;
+  return React.cloneElement(props.children, { ...others });
 }
 Authority.Deny.displayName = 'Deny';
 
