@@ -10,7 +10,7 @@ class Authority extends Component {
     const rights = code && permission.includes(code);
 
     if ('function' === typeof children) {
-      return childrend(rights);
+      return childrend(rights, this.props);
     } else {
       let AdmitChild = null, DenyChild = null, normal = [];
       React.Children.forEach(children, c => {
