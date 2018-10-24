@@ -36,13 +36,37 @@ class Authority extends Component {
 
 Authority.Admit = function (props) {
   const { children, ...others } = props;
-  return React.cloneElement(props.children, { ...others });
+  if (children && children.props) {
+    return React.cloneElement(props.children, { ...others });
+  } else if (React.Children.count(children) > 1) {
+    return React.Children.map(children, (child, index) => {
+      if (child && child.props) {
+        return React.cloneElement(child, { key: index, ...others });
+      } else {
+        return child;
+      }
+    })
+  } else {
+    return children;
+  }
 }
 Authority.Admit.displayName = 'Admit';
 
 Authority.Deny = function (props) {
   const { children, ...others } = props;
-  return React.cloneElement(props.children, { ...others });
+  if (children && children.props) {
+    return React.cloneElement(props.children, { ...others });
+  } else if (React.Children.count(children) > 1) {
+    return React.Children.map(children, (child, index) => {
+      if (child && child.props) {
+        return React.cloneElement(child, { key: index, ...others });
+      } else {
+        return child;
+      }
+    })
+  } else {
+    return children;
+  }
 }
 Authority.Deny.displayName = 'Deny';
 
