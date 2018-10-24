@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 
 class Authority extends Component {
+  static defaultProps = {
+    code: '',
+    permission: []
+  }
+
   constructor(props) {
     super(props);
   }
 
   render() {
-    const { code, permission = [], children, ...otherProps } = this.props;
-    const rights = code && permission.includes(code);
+    const { code, permission, children, ...otherProps } = this.props;
+    const rights = !code || permission.includes(code);
 
     if ('function' === typeof children) {
       return childrend(rights, this.props);
